@@ -117,6 +117,8 @@ label, input[type="text"], #adv_code_search .search-page-label, input[type="pass
 .button, .minibutton {
 	outline: none;
 	text-align: center;
+	width: 100%;
+	margin: 5px 0;
 }
 
 .button, .minibutton {
