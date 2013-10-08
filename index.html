@@ -1,0 +1,94 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="./client/style/style.css"></link>
+
+		<script type="text/javascript" src="./client/lib/jquery.js"></script>
+		<script type="text/javascript" src="./client/lib/underscore.js"></script>
+		<script type="text/javascript" src="./client/lib/backbone.js"></script>
+	</head>
+	<body>
+		<div class="header header-logged-out">
+  			<div class="title">
+				<h1> <font class="title-font"> Partner Join </font></h1>
+			</div>
+		</div>
+
+		<div id="content"></div>
+		
+		<div class="container">
+			<div class="site-footer">
+				<ul class="site-footer-links right">
+					<li><a href="https://status.github.com/">Status</a></li>
+					<li><a href="http://developer.github.com">API</a></li>
+					<li><a href="http://training.github.com">Training</a></li>
+					<li><a href="http://shop.github.com">Shop</a></li>
+					<li><a href="/blog">Blog</a></li>
+					<li><a href="/about">About</a></li>
+				</ul>
+				<ul class="site-footer-links">
+					<li>&copy; 2013 <span title="0.00627s from github-fe133-cp1-prd.iad.github.net">GitHub</span>, Inc.</li>
+					<li><a href="/site/terms">Terms</a></li>
+					<li><a href="/site/privacy">Privacy</a></li>
+					<li><a href="/security">Security</a></li>
+					<li><a href="/contact">Contact</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<script type="text/template" id="login">
+			<div id="login">
+				<div class="auth-form">
+					<form accept-charset="UTF-8">     
+						<div class="auth-form-header">
+							<h1><font class="signIn">Sign In</font></h1>
+						</div>
+						<div class="auth-form-body">
+							<label for="login_field">
+								Username or Email
+							</label>
+							<input autocapitalize="off" autofocus="autofocus" class="input-block" id="login_field" name="login" tabindex="1" type="text" />
+							<label for="password">
+								Password
+							</label>
+							<input class="input-block" id="password" name="password" tabindex="2" type="password" />
+							<input id="signIn" class="button" name="commit" tabindex="3" value="Sign in" />
+							<input id="signUp" class="button" name="commit" tabindex="3" value="Sign up" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</script>
+
+		<script type="text/template" id="regiest">
+			<div id="regiest">
+				<div class="auth-form">
+					<form accept-charset="UTF-8">     
+						<div class="auth-form-header">
+							<h1><font class="signIn">Sign Up</font></h1>
+						</div>
+						<div class="auth-form-body">
+							<label for="login_field">
+								Username or Email
+							</label>
+							<input autocapitalize="off" autofocus="autofocus" class="input-block" id="login_field" name="login" tabindex="1" type="text" />
+							<label for="password">
+								Password
+							</label>
+							<input class="input-block" id="password" name="password" tabindex="2" type="password" />
+							<label for="password">
+								Confirm Password
+							</label>
+							<input class="input-block" id="confirmpassword" name="confirmpassword" tabindex="3" type="password" />
+							<input class="button" name="commit" tabindex="3" value="Submit" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</script>
+		
+		<script type="text/javascript" src="./client/src/user/models/loginM.js"></script>
+		<script type="text/javascript" src="./client/src/user/controllers/loginC.js"></script>
+		<script type="text/javascript" src="./client/src/user/views/loginV.js"></script>
+		<script type="text/javascript" src="./client/src/router/router.js"></script>
+	</body>
+</html>
