@@ -3,6 +3,8 @@ exports.list = function(req, res){
 };
 
 exports.login = function(req, res) {
+	console.log(req.session);
 	console.log(req.params, req.query, req.body);
+	req.session.logined = true;
 	res.send(req.body);
 }
