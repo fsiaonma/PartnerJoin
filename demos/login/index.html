@@ -1,0 +1,86 @@
+<html>
+	<head>
+		<script type="text/javascript" src="./jquery.js"></script>
+		<script>
+			// 显示注册
+			function showRegiest() {
+				document.getElementById("regiest_username").value = "";
+				document.getElementById("regiest_password").value = "";
+
+				document.getElementById("regiestP").style.display = "block";
+				document.getElementById("loginP").style.display = "none";	
+
+				document.getElementById("reponseContent").innerHTML = "<font></font>";
+			}
+
+			// 注册
+			function regiest() {
+				var u = document.getElementById("regiest_username").value;
+				var p = document.getElementById("regiest_password").value;
+				$.post("/regiest", {
+					username: u,
+					password: p
+				}, function(data) {
+					if (data.success) {
+		    			document.getElementById("reponseContent").innerHTML = "<font>" + data.msg + "</font>";
+					} else {
+						alert("error");
+		    			document.getElementById("reponseContent").innerHTML = "<font>" + data.msg + "</font>";
+					}
+		    	});
+			}
+
+			// 显示登陆
+			function showLogin() {
+				document.getElementById("login_username").value = "";
+				document.getElementById("login_password").value = "";
+
+				document.getElementById("regiestP").style.display = "none";
+				document.getElementById("loginP").style.display = "block";
+
+				document.getElementById("reponseContent").innerHTML = "<font></font>";
+			}
+
+			// 登陆
+			function login() {
+				var u = document.getElementById("login_username").value;
+				var p = document.getElementById("login_password").value;
+				$.post("/login", {
+					username: u,
+					password: p
+				}, function(data) {
+					if (data.success) {
+		    			document.getElementById("reponseContent").innerHTML = "<font>" + data.msg + "</font>";
+					} else {
+						alert("error: " + data.msg);
+		    			document.getElementById("reponseContent").innerHTML = "<font>" + data.msg + "</font>";
+					}
+		    	});
+			}
+		</script>
+	</head>
+	<body>
+		<input type="button" value="显示注册页" onclick="showRegiest()"></input>
+		<input type="button" value="显示登陆页" onclick="showLogin()"></input>
+
+		<div id="regiestP" style="display: none">
+			<center>
+				<font> 注册　</font> <br />
+				账号：<input id="regiest_username"></input> <br />
+				密码：<input id="regiest_password"></input> <br />
+				<input type="button" value="注册" onclick="regiest()"></input> <br />				
+			</center>
+		</div>
+
+		<div id="loginP" style="display: none">
+			<center>
+				<font> 登陆　</font> <br />
+				账号：<input id="login_username"></input> <br />
+				密码：<input id="login_password" type="password"></input> <br />
+				<input type="button" value="登陆" onclick="login()"></input> <br />
+			</center>
+		</div>
+
+		<div id="reponseContent"></div>
+	</body>
+</html>

@@ -1,11 +1,11 @@
-
 /**
  * Module dependencies.
  */
-
 var express = require('express');
 var http = require('http');
 var path = require('path');
+var eagleMysql = require('../../server/mysql/eagleMysql.js');
+var SqlCondition = require('../../server/mysql/sqlCondition.js');
 
 var app = express();
 
@@ -27,12 +27,64 @@ app.get('/', function(req, res) {
 	res.sendfile('./index.html');
 });
 
+// 响应登陆请求
 app.post('/login', function(req, res) {
-	var data = {
-		success: true,
-		msg: "success"
-	}
-	res.send(data);
+    // 设置条件
+	var sqlCondtion = new SqlCondition();
+    var selParams = {
+        keys       : ['PASSWORD'], 
+        table      : 'T_TEST_USER', 
+        conditions : sqlCondtion.where("USERNAME = '" + req.body.username + "'").getSql()
+    };
+    // 搜索数据库
+    eagleMysql.connet();
+    eagleMysql.select(selParams, {
+        success : function (data) {
+            console.log('success');
+
+            if (data.results.length > 0 && data.results[0].PASSWORD == req.body.password) {
+                res.send({
+                    success: true,
+                    msg: "登陆成功"
+                });
+            } else {
+                res.send({
+                    success: false,
+                    msg: "账号或密码错误"
+                });
+            }
+        },
+        error : function (err) {
+            console.log(err)
+        },
+    });
+    eagleMysql.disconnet();
+});
+
+// 响应注册请求
+app.post("/regiest", function(req, res) {
+    // 设置条件
+    var sqlCondtion = new SqlCondition();
+    var insertParams = {
+        table  : 'T_TEST_USER',
+        keys   : ['USERNAME', 'PASSWORD'],
+        values : [req.body.username, req.body.password]
+    };
+    // 向数据库插入数据
+    eagleMysql.connet();
+    eagleMysql.insert(insertParams, {
+        success : function (data) {
+            res.send({
+                success: true,
+                msg: "注册成功"
+            });
+            console.log('success');
+        },
+        error : function (err) {
+            console.log(err);
+        }
+    });
+    eagleMysql.disconnet();
 })
 
 http.createServer(app).listen(app.get('port'), function(){

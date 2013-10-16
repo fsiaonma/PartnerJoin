@@ -1,7 +1,6 @@
 //mysql 适配器
 var mysql  = require('mysql');
-var requirejs = require('requirejs');
-var mysqlSetting = require('../../common/config/mysqlSetting');
+var mysqlSetting = require('./config.js');
 var client = null;
 
 exports.createTables = function (tables) {
@@ -68,7 +67,6 @@ exports.connet = function () {
     client.query('USE ' + setting.dataBase, function(error, results) {
         if(error) {
             console.log('ClientConnectionReady Error: ' + error.message);
-            disconnet();
             return;
         }else{
             console.log('ClientConnect Success');
