@@ -16,7 +16,7 @@ exports.createTables = function (tables) {
         client.query(queryStr);
     };
 };
-    
+
 exports.insert = function (params, callback) {
     var keyStr = ' ' + params.keys[0] + '=? ';
     for (var i = 1, keysLen = params.keys.length; i < keysLen; ++i) {

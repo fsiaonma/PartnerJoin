@@ -1,14 +1,17 @@
 var express = require('express');
-var eagleMysql = require('../../Server/Mysql/eagleMysql.js');
-var SqlCondition = require('../../Server/Mysql/sqlCondition.js');
+var sl = require('../../common/lib/slib.pro.js');
+console.log(sl);
+var SqlCondition = sl.sqlCondition;
+var eagleMysql = sl.eagleMysql;
+eagleMysql.init(require('../../server/mysql/config.js').getParams());
 
 //test insert
 var testInsert = function () {
     var sqlCondtion = new SqlCondition();
     var insertParams = {
-        table  : 'T_PROJECT',
-        keys   : ['NAME'],
-        values : ['testVersion1.0']
+        table  : 'T_TEST_USER',
+        keys   : ['USERNAME'],
+        values : ['testName']
     };
     eagleMysql.insert(insertParams, {
         success : function (data) {
@@ -79,15 +82,15 @@ var testSelect = function () {
     //connet
     eagleMysql.connet();
     //insert
-    testInsert();
-    //delete
-    testInsert();
-    testDelete();
-    //update
-    testInsert();
-    testUpdate();
-    //select
-    testSelect();
+    // testInsert();
+    // //delete
+    // testInsert();
+    // testDelete();
+    // //update
+    // testInsert();
+    // testUpdate();
+    // //select
+    // testSelect();
     //disconnet
     eagleMysql.disconnet();
 })();
