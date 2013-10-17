@@ -2,8 +2,9 @@
  * Module dependencies.
  */
 var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
+  , fs = require("fs")
+  , routes = require('./src/routes')
+  , user = require('./src/user/user')
   , http = require('http')
   , path = require('path');
 
@@ -22,7 +23,7 @@ app.configure(function() {
     app.use(express.session({secret: "partnerJoin"}));
 
     app.use(app.router);
-    app.use(express.static(path.join(__dirname, '../')));
+    app.use(express.static(path.join(__dirname, '../client/')));
 });
 
 if ('development' == app.get('env')) {
@@ -33,7 +34,13 @@ app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.session({secret: "123456789"}));
 
-app.get('/', routes.index);
+app.get('/', function(req, res) {
+    fs.readFile('../client/index.html',function (err, data) {
+        res.writeHead(200, {'Content-Type': 'text/html', 'Content-Length': data.length});
+        res.write(data);
+        res.end();
+    });
+});
 app.get('/users', user.list);
 
 app.post("/login", user.login);
