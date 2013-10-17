@@ -1,6 +1,5 @@
 var express = require('express');
 var sl = require('../../common/lib/slib.pro.js');
-console.log(sl);
 var SqlCondition = sl.sqlCondition;
 var eagleMysql = sl.eagleMysql;
 eagleMysql.init(require('../../server/mysql/config.js').getParams());
@@ -27,8 +26,8 @@ var testInsert = function () {
 var testDelete = function () {
     var sqlCondtion = new SqlCondition();
     var delParams = {
-        table      : 'T_PROJECT', 
-        conditions : sqlCondtion.where("NAME = 'testVersion1.0'").getSql()
+        table      : 'T_TEST_USER', 
+        conditions : sqlCondtion.where("USERNAME = 'testName'").getSql()
     };
     eagleMysql.delete(delParams, {
         success : function (data) {
@@ -44,10 +43,10 @@ var testDelete = function () {
 var testUpdate = function () {
     var sqlCondtion = new SqlCondition();
     var updateParams = {
-        table  : 'T_PROJECT',
-        keys   : ['NAME'],
-        values : ['testVersion3.0'],
-        conditions : sqlCondtion.where("NAME = 'testVersion1.0'").getSql()
+        table  : 'T_TEST_USER',
+        keys   : ['USERNAME'],
+        values : ['updateName'],
+        conditions : sqlCondtion.where("USERNAME = 'testName'").getSql()
     };
     eagleMysql.update(updateParams, {
         success : function (data) {
@@ -63,9 +62,9 @@ var testUpdate = function () {
 var testSelect = function () {
     var sqlCondtion = new SqlCondition();
     var selParams = {
-        keys       : ['NAME'], 
-        table      : 'T_PROJECT', 
-        conditions : sqlCondtion.where("NAME = 'testVersion3.0'").and('1=1').getSql()
+        keys       : ['USERNAME'],
+        table      : 'T_TEST_USER',
+        conditions : sqlCondtion.where("USERNAME = 'updateName'").and('1=1').getSql()
     };
     eagleMysql.select(selParams, {
         success : function (data) {
@@ -82,15 +81,15 @@ var testSelect = function () {
     //connet
     eagleMysql.connet();
     //insert
-    // testInsert();
+    testInsert();
     // //delete
-    // testInsert();
-    // testDelete();
+    testInsert();
+    testDelete();
     // //update
-    // testInsert();
-    // testUpdate();
+    testInsert();
+    testUpdate();
     // //select
-    // testSelect();
+    testSelect();
     //disconnet
     eagleMysql.disconnet();
 })();

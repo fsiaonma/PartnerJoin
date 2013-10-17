@@ -4,8 +4,11 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
-var eagleMysql = require('../../server/mysql/eagleMysql.js');
-var SqlCondition = require('../../server/mysql/sqlCondition.js');
+
+var sl = require('../../common/lib/slib.pro.js');
+var SqlCondition = sl.sqlCondition;
+var eagleMysql = sl.eagleMysql;
+eagleMysql.init(require('../../server/mysql/config.js').getParams());
 
 var app = express();
 
