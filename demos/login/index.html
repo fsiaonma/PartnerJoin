@@ -1,16 +1,21 @@
 <html>
 	<head>
 		<script type="text/javascript" src="./jquery.js"></script>
+		<script type="text/javascript" src="./slib.client.js"></script>
 		<script>
+			// 重置界面
+			function reset() {
+				document.getElementById("regiestP").style.display = "none";
+				document.getElementById("loginP").style.display = "none";
+				document.getElementById("userlistP").style.display = "none";
+			}
+
 			// 显示注册
 			function showRegiest() {
+				reset();
 				document.getElementById("regiest_username").value = "";
 				document.getElementById("regiest_password").value = "";
-
 				document.getElementById("regiestP").style.display = "block";
-				document.getElementById("loginP").style.display = "none";	
-
-				document.getElementById("reponseContent").innerHTML = "<font></font>";
 			}
 
 			// 注册
@@ -22,23 +27,19 @@
 					password: p
 				}, function(data) {
 					if (data.success) {
-		    			document.getElementById("reponseContent").innerHTML = "<font>" + data.msg + "</font>";
+		    			sl.log.i(data.msg);
 					} else {
-						alert("error");
-		    			document.getElementById("reponseContent").innerHTML = "<font>" + data.msg + "</font>";
+						sl.log.e(data.msg);
 					}
 		    	});
 			}
 
 			// 显示登陆
 			function showLogin() {
+				reset();
 				document.getElementById("login_username").value = "";
 				document.getElementById("login_password").value = "";
-
-				document.getElementById("regiestP").style.display = "none";
 				document.getElementById("loginP").style.display = "block";
-
-				document.getElementById("reponseContent").innerHTML = "<font></font>";
 			}
 
 			// 登陆
@@ -50,18 +51,63 @@
 					password: p
 				}, function(data) {
 					if (data.success) {
-		    			document.getElementById("reponseContent").innerHTML = "<font>" + data.msg + "</font>";
+		    			sl.log.i(data.msg);
 					} else {
-						alert("error: " + data.msg);
-		    			document.getElementById("reponseContent").innerHTML = "<font>" + data.msg + "</font>";
+						sl.log.e(data.msg);
 					}
 		    	});
 			}
+
+			// 查看用户列表
+			function showUserList() {
+				reset();
+				var userlistT = document.getElementById("userlistT");
+				userlistT.innerHTML = ""
+
+				$.post("/getUsers", {}, function(data) {
+					if (data.success) {
+						var tr = document.createElement("tr");
+						tr.innerHTML = "<td>用户名</td>" + 
+									   "<td>密码</td>" +
+									   "<td></td>";
+						userlistT.appendChild(tr);
+
+						for (var i = 0, len = data.results.length; i < len; ++i) {
+							var tr = document.createElement("tr");
+							tr.id = i + 1;
+							tr.innerHTML = "<td><input id='username" + tr.id + "' value=" + data.results[i].USERNAME + "></input></td>" + 
+									   	   "<td><input id='password" + tr.id + "' value=" + data.results[i].PASSWORD + "></input></td>" +
+									   	   "<td><input type='button' value='修改' onclick='updateUserInfo(" + tr.id + ")'></td>";
+							userlistT.appendChild(tr);
+						}
+					} else {
+						sl.log.e(data.msg);
+					}
+		    	});
+
+		    	document.getElementById("userlistP").style.display = "block";
+			}
+
+			// 更新用户信息
+	    	function updateUserInfo(id) {
+	    		$.post("/updateUers", {
+	    			userId: id,
+	    			username: document.getElementById("username" + id).value,
+	    			password: document.getElementById("password" + id).value
+	    		}, function(data) {
+					if (data.success) {
+						sl.log.i(data.msg);
+					} else {
+						sl.log.e(data.msg);
+					}
+		    	});
+	    	}
 		</script>
 	</head>
 	<body>
-		<input type="button" value="显示注册页" onclick="showRegiest()"></input>
-		<input type="button" value="显示登陆页" onclick="showLogin()"></input>
+		<input type="button" value="注册页" onclick="showRegiest()"></input> <br />
+		<input type="button" value="登陆页" onclick="showLogin()"></input> <br />
+		<input type="button" value="查看用户列表" onclick="showUserList()"></input> <br />
 
 		<div id="regiestP" style="display: none">
 			<center>
@@ -81,6 +127,22 @@
 			</center>
 		</div>
 
-		<div id="reponseContent"></div>
+		<div id="userlistP" style="display: none">
+			<center>
+				<font> 用户详情　</font> <br />
+				<table id="userlistT" border="1">
+					<tr>
+						<td>row 1, cell 1</td>
+						<td><input type="text" value="sam"></input></td>
+						<td><input type="button" value="修改"></input></td>
+					</tr>
+					<tr>
+						<td>row 2, cell 1</td>
+						<td>row 2, cell 2</td>
+						<td><input type="button" value="修改"></input></td>
+					</tr>
+				</table>
+			</center>
+		</div>
 	</body>
 </html>
